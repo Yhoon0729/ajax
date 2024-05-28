@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function loadJsp() {
+		alert("ok");
+		// javascript 이용한 ajax, 서버 만들기
+		const xhttp = new XMLHttpRequest(); // ajax object
+		// 서버 열기
+		xhttp.open("GET", "test01.jsp", true)
+		// 서버 보내기
+		xhttp.send()
+		xhttp.onreadystatechange = function() {
+			if(this.readyState == 4 && this.status == 200) {
+				alert(this.responseText) // 넘어온 xhttp 값, a
+				document.getElementById("demo").innerHTML
+				= this.responseText
+			}
+		}
+	} // end of loadJsp()
+	
+	function fetchJsp() {
+		fetch("test01.jsp") // 서버 열고 닫기
+		.then(res => res.text()) // a
+		.then(txt => document.querySelector("#demo").innerHTML = txt)
+	} // end of fetchJsp()
+</script>
+</head>
+<body>
+	<h2>The XMLHttpRequest Object</h2>
+	<button type="button" onclick="fetchJsp()">request data</button>
+	<div id="demo"></div>
+	// webapp/ch01/ajax01.html
+</body>
+</html>

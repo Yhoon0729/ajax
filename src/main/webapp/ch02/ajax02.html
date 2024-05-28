@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script>
+	function helloServer() {
+		alert("ok");
+		// javascript 이용한 ajax, 서버 만들기
+		const xhttp = new XMLHttpRequest(); // ajax object
+		const params = "?name="+document.f.name.value
+		
+		// 서버 열기
+		xhttp.open("GET", "test02.jsp"+params, true)
+			
+		// 서버 보내기
+		xhttp.send()
+		xhttp.onreadystatechange = function() {
+			if(this.readyState == 4 && this.status == 200) {
+				alert(this.responseText) // 넘어온 xhttp 값, a
+				document.querySelector("#demo").innerHTML
+				= this.responseText
+			}
+		}
+	} // end of helloServer()
+	
+	function fetchServer() {
+		const params = "?name="+document.f.name.value
+		
+		fetch("test02.jsp"+params)
+		.then(res => res.text())
+		.then(txt => document.querySelector("#demo").innerHTML = txt)
+	} // end of fetchServer()
+</script>
+</head>
+<body>
+<form name="f">
+	<input type="text" name="name">
+	<input type="button" value="입력" onclick="fetchServer()">
+	<div id="demo"></div>
+</form>
+</body>
+</html>

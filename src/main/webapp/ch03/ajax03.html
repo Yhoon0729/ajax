@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>ajax03</title>
+	<script>
+		function load(url) {
+			const xhttp = new XMLHttpRequest()
+
+			xhttp.open("GET", url, true)
+			xhttp.send()
+
+			xhttp.onreadystatechange = callBack
+		} // end of load(url)
+
+		function callBack() {
+			if (this.readyState == 4 && this.status == 200) {
+				let items = JSON.parse(this.responseText)
+				let out = '<table class="w3-table-all">'
+
+				for (item of items) {
+					out += "<tr><td>" + item.author.book + "</td>"
+					out += "<td>" + item.author.pubDate + "</td></tr>"
+					console.log(item)
+				} // end of for(item of items)
+
+				out += "</table>"
+				document.querySelector("#area1").innerHTML = out
+
+			} // end of if(~~)
+		} // end of callBack()
+
+		function fetchJsp(url) {
+			fetch(url)
+			.then(res => res.json()) // res.json() == JSON.parse(this.responseText
+			.then(txt => {
+					let out = '<table class="w3-table-all">'
+
+					for (item of items) {
+						out += "<tr><td>" + item.author.book + "</td>"
+						out += "<td>" + item.author.pubDate + "</td></tr>"
+						console.log(item)
+					} // end of for(item of items)
+
+					out += "</table>"
+					document.querySelector("#area2").innerHTML = out
+
+				}) // end of .then(txt => )
+		} // end of fetchJsp(url)
+	</script>
+</head>
+
+<body>
+	<input type="button" value="Json UTF read1" onclick="load('test03UTF.json')">
+	<div id="area1"></div>
+
+	<input type="button" value="Json UTF read2" onclick="fetchJsp('test03UTF.json')">
+	<div id="area2"></div>
+</body>
+
+</html>
