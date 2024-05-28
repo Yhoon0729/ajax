@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+	<script>
+
+		function chkForm() {
+
+			const form = document.querySelector("form");
+
+			// 폼데이타 자동 생성 객체
+			const formData = new FormData(form);
+
+			const queryString = new URLSearchParams(formData).toString();
+
+			alert(queryString);
+
+			// post 방식은 get 과 다른 방식으로 처리된다.
+			fetch("testpost.jsp", {
+
+				method: 'post',
+
+				body: queryString,
+
+				headers: {
+					'Content-Type': 'application/x-www-form-urlencoded'
+				},
+
+			})
+				.then(res => res.text())
+				.then(text => document.querySelector("#demo").innerHTML = text)
+
+		}
+
+	</script>
+
+<body>
+
+	<form>
+
+		id: <input type="text" name="id">
+		name : <input type="text" name="name">
+		addr : <input type="text" name="addr"> <br>
+
+		<input type="button" value="확인" onclick="chkForm()">
+		<div id="demo"></div>
+
+	</form>
+
+
+</body>
+
+</html>
