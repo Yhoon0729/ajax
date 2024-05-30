@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<title>Insert title here</title>
+</head>
+<script>
+	function idChk() {
+		const id = document.f.id.value
+		let result = document.querySelector("#result")
+		let st = result.style
+		// alert(result)
+		
+		if(id.length < 8) {
+			st.color = 'red'
+			result.innerHTML = "id는 8자리 이상이어야 합니다"
+		} else {
+			fetch("readId.jsp?id="+id)
+			.then(res => res.text())
+			.then(txt => {
+				alert("["+txt.trim()+"]")
+				if(txt.trim()=='false') {
+					st.color='blue'
+					result.innerHTML="사용 가능한 id 입니다"
+					document.f.confirm.value="ok"
+				} else {
+					st.color='red'
+					result.innerHTML="사용중인 id 입니다"
+					document.f.confirm.value="no"
+				} // end of if(txt.trim()=='false')
+				
+			}) // end of fetch("readId.jsp?id="+id)
+			
+		} // end of if(id.length < 8)
+		
+	} // end of idChk()
+	
+	function inputChk(f) {
+		if(f.id.value=="") {
+			alert("id를 입력하시오")
+			f.id.focus();
+			return false
+		} // end of if(f.id.value=="")
+		
+		if(f.confirm.value!="ok") {
+			alert("id확인이 되지 않았습니다")
+			f.id.focus();
+			return false
+		} // end of if(f.confirm.value!="ok")
+		
+		alert("사용 가능한 id 입니다")
+		return true
+	} // end of inputChk()
+	
+</script>
+<body>
+	<form name="f" onsubmit="return inputChk(this)">
+		ID:<input type="text" name="id" id="id" 
+		autocomplete="off" onkeyup="idChk()">
+		<input type="hidden" name="confirm" value="">
+		<input type="submit" value="입력 확인">
+	</form>
+	<div id="result" style="padding: 3px;padding-left: 15px; font-size: 12px;">
+	</div>
+</body>
+
+</html>
